@@ -1,0 +1,65 @@
+//日期求整数.
+bool leap_year(int year) 
+{
+	return ((year % 400 == 0) || (year % 100 != 0 && year % 4 == 0));
+}
+void date_to_int(string date) 
+{
+	int year, month, day;
+	sscanf(date.c_str(), "%d.%d.%d", &year, &month, &day);
+	int month_length[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	int ans = day - 1;
+	while (month != 0) 
+	{
+		month--;
+		ans += month_length[month];
+		if (month == 2 && leap_year(year))
+		{
+			ans += 1;
+		}
+	}
+	ans += 365 * (year - 1988);
+	ans += (year - 1) / 4 - 1988 / 4;
+	ans -= (year - 1) / 100 - 1988 / 100;
+	ans += (year - 1) / 400 - 1988 / 400;
+	cout << ans <<endl;
+}
+//整数求日期
+void int_to_data(int n)
+{
+	int year = 1988;
+	int month = 1;
+	int day = 1;
+	int mon[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+	if((year%4==0&&year%100!=0)||year%400==0)
+	{
+			mon[2]=29;
+	}
+	else
+	{
+		mon[2]=28;
+	}
+	for(int i = 1;i <= n;i++)
+	{	
+		day+=1;
+		if(day > mon[month])
+		{
+			day=day-mon[month];
+			month++;
+			if(month>12)
+			{
+				year++;
+				month=1;
+				if((year%4==0&&year%100!=0)||year%400==0)
+				{ 
+					mon[2]=29;
+				}
+				else
+				{
+					mon[2]=28;
+				}	
+			}
+		}
+	}
+	cout << year << "." << month << "." << day << endl;
+}
